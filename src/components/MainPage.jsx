@@ -6,6 +6,7 @@ function MainPage() {
     <div>
       <h1>Welcome!</h1>
       <NavLink to="/register">Register here</NavLink>
+      <br />
       <NavLink to="/login">Log in here</NavLink>
     </div>
   );

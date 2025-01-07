@@ -13,6 +13,7 @@ function Login() {
         <label for="password">Password</label>
         <input type="text"></input>
       </div>
+      <button>Log in</button>
     </div>
   );
 }
