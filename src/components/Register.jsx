@@ -35,6 +35,7 @@ function Register() {
 
   return (
     <div>
+      <h1>New user</h1>
       <div>
         <label for="username">Username</label>
         <input
