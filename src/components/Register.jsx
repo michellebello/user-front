@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import eye from "./eye.png";
+import "./styles/index.css";
 
 function Register() {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const toggleVisibility = () => {
+    setPasswordVisibility(passwordVisibility ? false : true);
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -27,9 +37,15 @@ function Register() {
           },
         }
       );
-      navigate("/login");
+      if (res.data === "User has been successfully added") {
+        toast.success("Registered successfully, now you can login");
+        navigate("/login");
+      } else {
+        toast.error("Make sure all forms are filled, and try again");
+      }
     } catch (err) {
       console.error("Error registering new user ", err);
+      toast.error("Error occurred, try again.");
     }
   };
 
@@ -48,9 +64,10 @@ function Register() {
       <div>
         <label>Password</label>
         <input
-          type="text"
+          type={passwordVisibility ? "text" : "password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="*************"
           required
         ></input>
       </div>
@@ -61,6 +78,12 @@ function Register() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         ></input>
+        <img
+          className="eye"
+          src={eye}
+          alt="eye"
+          onClick={toggleVisibility}
+        ></img>
       </div>
       <button onClick={handleRegister} type="submit">
         Register
