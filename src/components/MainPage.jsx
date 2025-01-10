@@ -2,6 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function MainPage() {
+
+  
   return (
     <div>
       <h1>Welcome!</h1>

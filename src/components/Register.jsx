@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -18,18 +18,18 @@ function Register() {
     };
 
     try {
-      const res = await axios.post("http://localhost:8080/users", newUser, {
-        headers: {
-          ContentType: "application/json",
-        },
-      });
-      console.log(JSON.stringify(res.data));
-      setSuccess(true);
-      setError(null);
+      const res = await axios.post(
+        "http://localhost:8080/users/register",
+        newUser,
+        {
+          headers: {
+            ContentType: "application/json",
+          },
+        }
+      );
+      navigate("/login");
     } catch (err) {
-      console.error("Error registering new user ", error);
-      setError(err.response?.data || "Something went wrong");
-      setSuccess(null);
+      console.error("Error registering new user ", err);
     }
   };
 
@@ -37,7 +37,7 @@ function Register() {
     <div>
       <h1>New user</h1>
       <div>
-        <label for="username">Username</label>
+        <label>Username</label>
         <input
           type="text"
           value={username}
@@ -46,7 +46,7 @@ function Register() {
         ></input>
       </div>
       <div>
-        <label for="password">Password</label>
+        <label>Password</label>
         <input
           type="text"
           value={password}
@@ -55,7 +55,7 @@ function Register() {
         ></input>
       </div>
       <div>
-        <label for="email">Email</label>
+        <label>Email</label>
         <input
           type="text"
           value={email}
@@ -65,8 +65,6 @@ function Register() {
       <button onClick={handleRegister} type="submit">
         Register
       </button>
-      {success && <div style={{ color: "green" }}>{success}</div>}
-      {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
   );
 }
